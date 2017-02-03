@@ -22,4 +22,4 @@ esac
 shift
 done
 
-python ./algo.py $EX_PATH $ALGO
+python2 ./algo.py $EX_PATH $ALGO
