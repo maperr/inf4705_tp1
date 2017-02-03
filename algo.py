@@ -176,11 +176,14 @@ def main():
     total1 = t3 - t2
     print(total1)
 
+    # results file
+    fres = open('results','w')
+
     # trouver temps avec seuil
     tempsmin = -1
     seuilmin = -1
     seuil = 0
-    while seuil < 100:
+    while abs(seuil - seuilmin) < 40:
         t0 = time.clock()
         quickSortPivotFirstSeuil(arr, seuil)
         t1 = time.clock()
@@ -188,9 +191,12 @@ def main():
         if total2 < tempsmin or tempsmin == -1:
             seuilmin = seuil
             tempsmin = total2
+        # write results
         print '{0:10} -- {1:10} -- {2:10}, current min: {3:10}'.format(seuil, total2, total1, seuilmin)
+        f.write('{0},{1}\n'.format(seuilmin,tempsmin))
         seuil += 1
 
+    f.close()
 
 if __name__ == "__main__":
     main()
