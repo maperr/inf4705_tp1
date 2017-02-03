@@ -3,7 +3,6 @@
 import random
 import sys
 import time
-import matplotlib.pyplot as plt
 # seuil optimal est 20
 
 # pris de http://rosettacode.org/wiki/Sorting_algorithms/Insertion_sort#Python
