@@ -136,9 +136,7 @@ def printArray(arr):
     print '\n'.join(str(p) for p in arr)
 
 
-# sample call: python quicksort.py (numdufichier.txt) (1|2|3|4|5)
-# where the second argument is the sorting algorithm to use
-# 1: countingSort, 2: quickSortPivotFirst, 3: quickSortPivotRandom, 4: quickSortPivotFirstSeuil, %: quickSortPivotRandomSeuil
+# sample call: python quicksort.py (numdufichier.txt) (counting|quick|quickRandom|quickSeuil|quickRandomSeuil)
 def main():
     # command line arguments version
     # with open(sys.argv[1]) as f:
@@ -146,15 +144,15 @@ def main():
     #     for line in f:
     #         arr.append(int(line))
     # t0 = time.time()
-    # if sys.argv[2] == "1":
+    # if sys.argv[2] == "counting":
     #     arr = countingSort(arr)
-    # elif sys.argv[2] == "2":
+    # elif sys.argv[2] == "quick":
     #     arr = quickSortPivotFirst(arr)
-    # elif sys.argv[2] == "3":
+    # elif sys.argv[2] == "quickRandom":
     #     arr = quickSortPivotRandom(arr)
-    # elif sys.argv[2] == "4":
+    # elif sys.argv[2] == "quickSeuil":
     #     arr = quickSortPivotFirstSeuil(arr, seuil)
-    # elif sys.argv[2] == "5":
+    # elif sys.argv[2] == "quickRandomSeuil":
     #     arr = quickSortPivotRandomSeuil(arr, seuil)
 
 
