@@ -7,12 +7,15 @@ key="$1"
 
 case $key in
     -a|--algo)
-    ALGO_NUM="$2"
+    ALGO="$2"
     shift
     ;;
     -e|--ex_path)
     EX_PATH="$2"
     shift
+    ;;
+    -p|--print|-t|--time)
+    OPTIONS="${OPTIONS}${1} "
     ;;
     *)
         echo "Argument inconnu: ${1}"
@@ -22,4 +25,5 @@ esac
 shift
 done
 
-python2 ./algo.py $EX_PATH $ALGO
+echo python ./algo.py $ALGO $EX_PATH $OPTIONS
+python ./algo.py $ALGO $EX_PATH $OPTIONS
