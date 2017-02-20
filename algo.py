@@ -1,10 +1,11 @@
 # coding=utf-8
 # using python 2.6+
 import random
-import sys
 import time
 import numpy
 import csv
+import sys
+sys.setrecursionlimit(5000000)
 # seuil optimal est 20
 
 # pris de http://rosettacode.org/wiki/Sorting_algorithms/Insertion_sort#Python
@@ -169,47 +170,55 @@ def quickSortPivotRandomSeuil(arr, seuil):
 #         print('Temps: {0} secondes.'.format(elapsed_time))
 
 def main():
-    with open('results.csv', 'wb') as csvfile:
+    resultsfilename = 'results50000-serie1.csv'
+    with open(resultsfilename, 'wb') as csvfile:
         spamwriter = csv.writer(csvfile, delimiter=',', quotechar='|', quoting=csv.QUOTE_MINIMAL)
-        spamwriter.writerow(['filename', 'counting_sort', 'quicksort_pivot_first', 'quicksort_pivot_first_seuil', 'quicksort_pivot_random', 'quicksort_pivot_random_seuil'])
-    
-    # pour chaque testset
-    for x in range(0, 30):
-        filename = 'INF4705_H17_TP1_donnees/testset_1000_' + str(x) + '.txt'
-        with open(filename) as f:
-            arr = []
-            for line in f:
-                arr.append(int(line))
-        seuil = 20
 
-        start_time_countingsort = time.time()
-        countingSort(arr)
-        end_time_countingsort = time.time()
-        elapsed_time_countingsort = start_time_countingsort - end_time_countingsort
+        testsets = ['50000', '100000', '500000']
 
-        start_time_quicksortpivotfirst = time.time()
-        quickSortPivotFirst(arr)
-        end_time_quicksortpivotfirst = time.time()
-        elapsed_time_quicksortpivotfirst = start_time_quicksortpivotfirst - end_time_quicksortpivotfirst
+        # pour chaque testset
+        for x in range(0, 10):
+            filename = 'INF4705_H17_TP1_donnees/testset_50000_' + str(x) + '.txt'
+            with open(filename) as f:
+                arr = []
+                for line in f:
+                    arr.append(int(line))
+            seuil = 20
 
-        start_time_quicksortpivotfirstseuil = time.time()
-        quickSortPivotFirstSeuil(arr, seuil)
-        end_time_quicksortpivotfirstseuil = time.time()
-        elapsed_time_quicksortpivotfirstseuil = start_time_quicksortpivotfirstseuil - end_time_quicksortpivotfirstseuil
+            start_time_countingsort = time.time()
+            countingSort(arr)
+            end_time_countingsort = time.time()
+            elapsed_time_countingsort = end_time_countingsort - start_time_countingsort
 
-        start_time_quicksortpivotrandom = time.time()
-        quickSortPivotRandom(arr)
-        end_time_quicksortpivotrandom = time.time()
-        elapsed_time_quicksortpivotrandom = start_time_quicksortpivotrandom - end_time_quicksortpivotrandom
+            start_time_quicksortpivotfirst = time.time()
+            quickSortPivotFirst(arr)
+            end_time_quicksortpivotfirst = time.time()
+            elapsed_time_quicksortpivotfirst = end_time_quicksortpivotfirst- start_time_quicksortpivotfirst
 
-        start_time_quicksortpivotrandomseuil = time.time()
-        quickSortPivotRandomSeuil(arr, seuil)
-        end_time_quicksortpivotrandomseuil = time.time()
-        elapsed_time_quicksortpivotrandomseuil = start_time_quicksortpivotrandomseuil - end_time_quicksortpivotrandomseuil
+            start_time_quicksortpivotfirstseuil = time.time()
+            quickSortPivotFirstSeuil(arr, seuil)
+            end_time_quicksortpivotfirstseuil = time.time()
+            elapsed_time_quicksortpivotfirstseuil = end_time_quicksortpivotfirstseuil - start_time_quicksortpivotfirstseuil
 
-        with open('results.csv', 'wb') as csvfile:
-            spamwriter = csv.writer(csvfile, delimiter=',', quotechar='|', quoting=csv.QUOTE_MINIMAL)
-            spamwriter.writerow([filename, elapsed_time_countingsort, elapsed_time_quicksortpivotfirst, elapsed_time_quicksortpivotfirstseuil,elapsed_time_quicksortpivotrandom, elapsed_time_quicksortpivotrandomseuil])
+            elapsed_time_quicksortpivotrandoms = 0
+            elapsed_time_quicksortpivotrandomseuils = 0
+            for y in range (0,10):
+                start_time_quicksortpivotrandom = time.time()
+                quickSortPivotRandom(arr)
+                end_time_quicksortpivotrandom = time.time()
+                elapsed_time_quicksortpivotrandom = end_time_quicksortpivotrandom - start_time_quicksortpivotrandom
+                elapsed_time_quicksortpivotrandoms = elapsed_time_quicksortpivotrandoms + elapsed_time_quicksortpivotrandom
+
+                start_time_quicksortpivotrandomseuil = time.time()
+                quickSortPivotRandomSeuil(arr, seuil)
+                end_time_quicksortpivotrandomseuil = time.time()
+                elapsed_time_quicksortpivotrandomseuil = end_time_quicksortpivotrandomseuil - start_time_quicksortpivotrandomseuil
+                elapsed_time_quicksortpivotrandomseuils = elapsed_time_quicksortpivotrandomseuils + elapsed_time_quicksortpivotrandomseuil
+
+            elapsed_time_quicksortpivotrandoms = elapsed_time_quicksortpivotrandoms / 10
+            elapsed_time_quicksortpivotrandomseuils = elapsed_time_quicksortpivotrandomseuils / 10
+
+            spamwriter.writerow([filename, elapsed_time_countingsort, elapsed_time_quicksortpivotfirst, elapsed_time_quicksortpivotfirstseuil,elapsed_time_quicksortpivotrandoms, elapsed_time_quicksortpivotrandomseuils])
 
 if __name__ == "__main__":
     main()
